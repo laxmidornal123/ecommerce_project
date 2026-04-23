@@ -7,30 +7,30 @@ from .models import Product, Review, Wishlist
 from orders.models import OrderItem
 
 
-# 🔍 HOME PAGE (SEARCH + CATEGORY + PAGINATION + WISHLIST)
+#  HOME PAGE (SEARCH + CATEGORY + PAGINATION + WISHLIST)
 def home(request):
     query = request.GET.get('q')
     category = request.GET.get('category')
 
     product_list = Product.objects.all()
 
-    # 🔍 SEARCH FILTER
+    #  SEARCH FILTER
     if query:
         product_list = product_list.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query)
         )
 
-    # 📂 CATEGORY FILTER (NEW 🔥)
+    #  CATEGORY FILTER (NEW)
     # CATEGORY FILTER
     if category:
        product_list = product_list.filter(category__iexact=category.strip())
-    # 📄 PAGINATION
+    #  PAGINATION
     paginator = Paginator(product_list, 12)
     page = request.GET.get('page')
     products = paginator.get_page(page)
 
-    # ❤️ WISHLIST ITEMS
+    #  WISHLIST ITEMS
     wishlist_items = []
     wishlist_count = 0
 
@@ -49,15 +49,15 @@ def home(request):
     })
 
 
-# 🛍 PRODUCT DETAIL + REVIEW SYSTEM
+#  PRODUCT DETAIL + REVIEW SYSTEM
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     reviews = Review.objects.filter(product=product)
 
-    # ⭐ Average rating
+    #  Average rating
     avg_rating = reviews.aggregate(Avg('rating'))['rating__avg']
 
-    # ✅ Check purchase
+    #  Check purchase
     if request.user.is_authenticated:
         has_purchased = OrderItem.objects.filter(
             order__user=request.user,
@@ -66,7 +66,7 @@ def product_detail(request, slug):
     else:
         has_purchased = False
 
-    # 📝 Add review
+    #  Add review
     if request.method == "POST" and has_purchased:
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
@@ -88,7 +88,7 @@ def product_detail(request, slug):
     })
 
 
-# ❤️ ADD TO WISHLIST
+#  ADD TO WISHLIST
 def add_to_wishlist(request, product_id):
     if not request.user.is_authenticated:
         return redirect('/accounts/login/')
@@ -103,7 +103,7 @@ def add_to_wishlist(request, product_id):
     return redirect('/')
 
 
-# ❤️ REMOVE FROM WISHLIST
+#  REMOVE FROM WISHLIST
 def remove_from_wishlist(request, product_id):
     if not request.user.is_authenticated:
         return redirect('/accounts/login/')
@@ -118,7 +118,7 @@ def remove_from_wishlist(request, product_id):
     return redirect('/wishlist/')
 
 
-# ❤️ WISHLIST PAGE
+#  WISHLIST PAGE
 def wishlist_view(request):
     if not request.user.is_authenticated:
         return redirect('/accounts/login/')
@@ -130,7 +130,7 @@ def wishlist_view(request):
     })
 
 
-# ❤️ TOGGLE WISHLIST (AJAX)
+#  TOGGLE WISHLIST (AJAX)
 def toggle_wishlist(request, product_id):
     if not request.user.is_authenticated:
         return JsonResponse({'status': 'login_required'})

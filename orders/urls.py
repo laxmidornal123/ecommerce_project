@@ -4,7 +4,7 @@ from .views import checkout, payment_success, verify_payment, track_order, gener
 urlpatterns = [
     path('', checkout, name='checkout'),
 
-    # ✅ Payment success
+    #  Payment success
     path('success/', payment_success, name='payment_success'),
 
     # Optional features
@@ -12,6 +12,6 @@ urlpatterns = [
     path('track/', track_order, name='track_order'),
     path('invoice/', generate_invoice, name='invoice'),
 
-    # ✅ Order history
+    #  Order history
     path('history/', order_history, name='order_history'),
 ]

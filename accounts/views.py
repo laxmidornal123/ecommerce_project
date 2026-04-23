@@ -62,12 +62,12 @@ def forgot_password(request):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             return render(request, 'accounts/forgot.html', {
-                'error': 'Email not found ❌'
+                'error': 'Email not found '
             })
 
         otp_code = str(random.randint(100000, 999999))
 
-        # 🔥 DELETE OLD OTP
+        # DELETE OLD OTP
         OTP.objects.filter(user=user).delete()
 
         # CREATE NEW OTP
@@ -103,27 +103,27 @@ def verify_otp(request):
 
         if not latest_otp:
             return render(request, 'accounts/verify_otp.html', {
-                'error': 'No OTP found ❌'
+                'error': 'No OTP found '
             })
 
-        # ⏱️ CHECK EXPIRY (2 minutes)
+        #  CHECK EXPIRY (2 minutes)
         if latest_otp.created_at < now() - timedelta(minutes=2):
             latest_otp.delete()
             return render(request, 'accounts/verify_otp.html', {
-                'error': 'OTP expired ❌'
+                'error': 'OTP expired '
             })
 
-        # ✅ MATCH OTP
+        # MATCH OTP
         if str(latest_otp.code).strip() == str(entered_otp).strip():
             request.session['otp_verified'] = True
             latest_otp.delete()
 
-            # 🔥 REDIRECT TO RESET PAGE
+            #  REDIRECT TO RESET PAGE
             return redirect('reset_password')
 
         else:
             return render(request, 'accounts/verify_otp.html', {
-                'error': 'Incorrect OTP ❌'
+                'error': 'Incorrect OTP '
             })
 
     return render(request, 'accounts/verify_otp.html')
@@ -132,7 +132,7 @@ def verify_otp(request):
 # ================= RESET PASSWORD =================
 def reset_password(request):
 
-    # 🔐 SECURITY CHECK
+    #  SECURITY CHECK
     if not request.session.get('otp_verified'):
         return redirect('forgot_password')
 
@@ -143,7 +143,7 @@ def reset_password(request):
 
         if password != confirm:
             return render(request, 'accounts/reset.html', {
-                'error': 'Passwords do not match ❌'
+                'error': 'Passwords do not match '
             })
 
         user = User.objects.get(id=user_id)
@@ -169,7 +169,7 @@ def resend_otp(request):
 
     otp_code = str(random.randint(100000, 999999))
 
-    # 🔥 DELETE OLD OTP
+    #  DELETE OLD OTP
     OTP.objects.filter(user=user).delete()
 
     # CREATE NEW OTP
