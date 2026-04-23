@@ -1,0 +1,19 @@
+<nav>
+    <a href="/">Home</a>
+    <a href="/cart/">Cart</a>
+    <a href="/accounts/login/">Login</a>
+    
+<div>
+    {% if user.is_authenticated %}
+        <span style="margin-right:10px;">👋 Hello, {{ user.username }}</span>
+        <a href="/accounts/logout/">Logout</a>
+    {% else %}
+        <a href="/accounts/login/">Login</a>
+        <a href="/accounts/register/">Register</a>
+    {% endif %}
+
+    <a href="/">Home</a>
+    <a href="/cart/">Cart</a>
+    <a href="/orders/history/">Orders</a>
+</div>
+</nav>

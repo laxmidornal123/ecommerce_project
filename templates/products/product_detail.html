@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="background:white; padding:20px; border-radius:10px;">
+
+    <h2>{{ product.name }}</h2>
+
+    <img src="{{ product.image.url }}" width="300" style="border-radius:10px;">
+
+    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+
+    <a href="/cart/add/{{ product.id }}/" 
+       style="background:#ffd814; padding:10px; text-decoration:none; border-radius:5px;">
+       Add to Cart
+    </a>
+
+</div>
+
+<hr>
+
+<!-- ⭐ Average Rating -->
+<h3>
+Average Rating: 
+{{ avg_rating|default:"0"|floatformat:1 }} ⭐
+</h3>
+
+<hr>
+
+<h3>⭐ Customer Reviews</h3>
+
+{% if reviews %}
+    {% for review in reviews %}
+        <div style="background:white; padding:15px; margin:10px 0; border-radius:10px; box-shadow:0 0 5px rgba(0,0,0,0.1);">
+            
+            <strong>{{ review.user.username }}</strong>
+
+            <!-- ⭐ Star Display -->
+            <p>
+            {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}
+                    ⭐
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}
+            </p>
+
+            <p>{{ review.comment }}</p>
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No reviews yet.</p>
+{% endif %}
+
+<hr>
+
+<!-- ✅ Only purchased users can review -->
+{% if has_purchased %}
+
+<h3>Add Your Review</h3>
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- ⭐ Star UI -->
+    <div id="star-rating" style="font-size:30px; cursor:pointer;">
+        <span data-value="1">☆</span>
+        <span data-value="2">☆</span>
+        <span data-value="3">☆</span>
+        <span data-value="4">☆</span>
+        <span data-value="5">☆</span>
+    </div>
+
+    <!-- Hidden input -->
+    <input type="hidden" name="rating" id="rating-value">
+
+    <br>
+
+    <textarea name="comment" placeholder="Write your review..." required 
+              style="width:100%; height:80px;"></textarea>
+
+    <br><br>
+
+    <button type="submit" 
+            style="background:#ffd814; padding:10px; border:none; border-radius:5px;">
+        Submit Review
+    </button>
+</form>
+{% endif %}
+
+{% endblock %}
+
+<script>
+const stars = document.querySelectorAll('#star-rating span');
+const ratingInput = document.getElementById('rating-value');
+
+stars.forEach(star => {
+
+    // Hover effect
+    star.addEventListener('mouseover', function() {
+        let value = this.getAttribute('data-value');
+
+        stars.forEach(s => {
+            if (s.getAttribute('data-value') <= value) {
+                s.innerHTML = "⭐";
+            } else {
+                s.innerHTML = "☆";
+            }
+        });
+    });
+
+    // Click event
+    star.addEventListener('click', function() {
+        let value = this.getAttribute('data-value');
+        ratingInput.value = value;
+    });
+
+});
+
+// Reset on mouse leave
+document.getElementById('star-rating').addEventListener('mouseleave', function() {
+    stars.forEach(s => s.innerHTML = "☆");
+});
+</script>

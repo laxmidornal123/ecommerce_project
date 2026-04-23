@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forgot Password</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+        }
+
+        .auth-wrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            width: 360px;
+            padding: 40px 30px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .auth-container:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .left-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 40px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        input:focus {
+            box-shadow: 0 0 5px #ffd814;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ffd814;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .auth-btn:hover {
+            background: #f7ca00;
+        }
+
+        .error {
+            color: #ff4d4d;
+            margin-top: 15px;
+        }
+
+        .extra {
+            margin-top: 20px;
+            color: white;
+        }
+
+        .extra a {
+            color: #ffd814;
+            text-decoration: none;
+        }
+
+        .extra a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="auth-wrapper">
+
+    <div class="auth-container">
+
+        <h2>Forgot Password 🔐</h2>
+        <p class="subtitle">Enter your registered email to receive OTP</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <i class="fa fa-envelope left-icon"></i>
+                <input type="email" name="email" placeholder="Enter Email" required>
+            </div>
+
+            <button type="submit" class="auth-btn">Send OTP</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="extra">
+            Back to <a href="/login/">Login</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

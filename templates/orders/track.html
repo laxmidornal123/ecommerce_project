@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Track Your Order 📍</h2>
+
+<div id="map" style="height:500px;"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+navigator.geolocation.getCurrentPosition(function(position) {
+    var userLocation = [
+        position.coords.latitude,
+        position.coords.longitude
+    ];
+
+    var map = L.map('map').setView(userLocation, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    L.marker(userLocation).addTo(map)
+        .bindPopup("📍 You")
+        .openPopup();
+});
+</script>
+
+{% endblock %}

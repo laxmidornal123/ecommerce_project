@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+               * {
+    box-sizing: border-box;
+}
+input {
+    width: 100%;
+    padding: 12px 40px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+        }
+
+        /* CENTER */
+        .auth-wrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* CARD */
+        .auth-container {
+            width: 360px;
+            padding: 40px 30px;
+            border-radius: 15px;
+
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .auth-container:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        /* INPUT WITH ICON */
+        .input-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-group i {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 40px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        input:focus {
+            box-shadow: 0 0 5px #ffd814;
+        }
+
+        /* PASSWORD EYE */
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        /* BUTTON */
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ffd814;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .auth-btn:hover {
+            background: #f7ca00;
+        }
+
+        /* EXTRA */
+        .extra {
+            margin-top: 20px;
+            color: white;
+        }
+
+        .extra a {
+            color: #ffd814;
+            text-decoration: none;
+        }
+
+        .extra a:hover {
+            text-decoration: underline;
+        }
+         .input-group {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* LEFT ICON */
+.left-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+}
+
+/* RIGHT ICON (FIXED POSITION) */
+.right-icon {
+    position: absolute;
+    right: 15px;   /* 🔥 push to extreme right */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* INPUT FIX */
+input {
+    width: 100%;
+    padding: 12px 45px 12px 40px;  /* 🔥 LEFT + RIGHT SPACE */
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+.forgot-container {
+    text-align: right;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.forgot-container a {
+    font-size: 13px;
+    color: blue;
+    text-decoration: none;
+}
+
+.forgot-container a:hover {
+    text-decoration: underline;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="auth-wrapper">
+
+    <div class="auth-container">
+
+        <h2>Sign In</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- USERNAME -->
+            <div class="input-group">
+                <i class="fa fa-user"></i>
+                <input type="text" name="username" placeholder="Enter Username" required>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="input-group">
+    <i class="fa fa-lock left-icon"></i>
+
+    <input type="password" name="password" placeholder="Enter Password">
+
+    <span class="right-icon" onclick="togglePassword()">👁️</span>
+</div>
+
+            <button type="submit" class="auth-btn">Login</button>
+        </form>
+
+        <div class="extra">
+            New user? <a href="/register/">Create account</a>
+        </div>
+        <div class="forgot-container">
+    <a href="/accounts/forgot/">Forgot Password?</a>
+</div>
+
+    </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+function togglePassword() {
+    var input = document.getElementById("password");
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+</script>
+
+</body>
+</htm

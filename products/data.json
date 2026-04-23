@@ -1,0 +1,52 @@
+[
+  {
+    "model": "products.product",
+    "fields": {
+      "name": "Samsung Galaxy A22",
+      "price": 17999,
+      "slug": "samsung-galaxy-a22",
+      "image": "https://m.media-amazon.com/images/I/71dEY4Neo3L._SX679_.jpg",
+      "description": "Samsung Galaxy A22 with AMOLED display, powerful battery and smooth performance."
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "name": "Vivo Y100",
+      "price": 24999,
+      "slug": "vivo-y100",
+      "image": "https://m.media-amazon.com/images/I/61+Q6Rh3OQL._SX679_.jpg",
+      "description": "Vivo Y100 offers premium design, fast charging and excellent camera performance."
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "name": "iPhone 13",
+      "price": 60000,
+      "slug": "iphone-13",
+      "image": "https://m.media-amazon.com/images/I/61l9ppRIiqL._SX679_.jpg",
+      "description": "Apple iPhone 13 with A15 chip, advanced camera system and long battery life."
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "name": "Motorola Edge 40",
+      "price": 29999,
+      "slug": "motorola-edge-40",
+      "image": "https://m.media-amazon.com/images/I/61kWB+uzR2L._SX679_.jpg",
+      "description": "Motorola Edge 40 with curved display, fast processor and clean Android experience."
+    }
+  },
+  {
+    "model": "products.product",
+    "fields": {
+      "name": "Google Pixel 7",
+      "price": 59999,
+      "slug": "google-pixel-7",
+      "image": "https://m.media-amazon.com/images/I/71niXI3lxlL._SX679_.jpg",
+      "description": "Google Pixel 7 with AI camera, stock Android and smooth performance."
+    }
+  }
+]

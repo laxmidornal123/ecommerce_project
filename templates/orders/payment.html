@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="display:flex; gap:30px; padding:30px;">
+
+    <!-- LEFT SIDE -->
+    <div style="flex:2; background:white; padding:20px; border-radius:10px;">
+
+        <h2>Checkout 🛒</h2>
+
+        <hr>
+
+        <h3>Delivery Address</h3>
+        <p>📍 Solapur, Maharashtra</p>
+
+        <hr>
+
+        <h3>Payment Method</h3>
+        <p>💳 Secure Razorpay Payment</p>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div style="flex:1; background:white; padding:20px; border-radius:10px; height:fit-content;">
+
+        <h3>Order Summary</h3>
+
+        <hr>
+
+        <p>Total Items: {{ cart_items_count|default:"1" }}</p>
+
+        <h2>Total: ₹{{ total }}</h2>
+
+        <button id="pay-btn"
+            style="background:#ffd814; padding:12px; border:none; width:100%; border-radius:5px; font-size:16px;">
+            Proceed to Pay
+        </button>
+
+    </div>
+
+</div>
+
+<!-- Razorpay -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+document.getElementById("pay-btn").onclick = function(e) {
+
+    var options = {
+        "key": "{{ key }}",
+        "amount": "{{ payment.amount }}",
+        "currency": "INR",
+        "order_id": "{{ payment.id }}",
+
+        "name": "My E-Commerce",
+        "description": "Order Payment",
+
+        "prefill": {
+            "name": "{{ request.user.username }}",
+            "email": "{{ request.user.email }}"
+        },
+
+        "theme": {
+            "color": "#ffd814"
+        },
+
+        "handler": function (response){
+            window.location.href = "/orders/success/";
+        }
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.open();
+
+    e.preventDefault();
+};
+</script>
+
+{% endblock %}
+window.location.href = "/orders/success/";

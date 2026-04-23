@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Products</h2>
+
+<div style="display:flex; flex-wrap:wrap; gap:20px;">
+
+{% for product in products %}
+<div style="background:white; padding:15px; width:220px; border-radius:8px; box-shadow:0 0 5px rgba(0,0,0,0.1);">
+
+    <img src="{{ product.image.url }}" width="100%" height="150">
+
+    <h3>{{ product.name }}</h3>
+
+    <p>₹{{ product.price }}</p>
+
+    <a href="/cart/add/{{ product.id }}/" style="background:#ffd814; padding:8px; display:block; text-align:center; text-decoration:none; color:black; border-radius:5px;">
+        Add to Cart
+    </a>
+
+</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

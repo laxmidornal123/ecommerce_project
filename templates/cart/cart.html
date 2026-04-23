@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.cart-container {
+    display: flex;
+    gap: 20px;
+}
+
+.cart-items {
+    flex: 3;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.cart-summary {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.qty-btn {
+    padding: 5px 10px;
+    background: #eee;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.delete-btn {
+    color: red;
+    text-decoration: none;
+}
+.delete-link {
+    color: #007185;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.delete-link:hover {
+    color: #c7511f;
+    text-decoration: underline;
+}
+</style>
+
+<h2>Your Shopping Cart 🛒</h2>
+
+<div class="cart-container">
+
+    <!-- LEFT SIDE -->
+    <div class="cart-items">
+
+        {% for item in items %}
+        <div class="cart-item">
+
+            <div>
+                <h4>{{ item.product.name }}</h4>
+                <p>₹{{ item.product.price }}</p>
+
+                <div>
+                    <a class="qty-btn" href="/cart/decrease/{{ item.id }}/">-</a>
+                    <strong>{{ item.quantity }}</strong>
+                    <a class="qty-btn" href="/cart/increase/{{ item.id }}/">+</a>
+                </div>
+
+                <br>
+
+                <!-- REMOVE -->
+                <a href="/cart/remove/{{ item.product.id }}/" class="delete-link">
+    Remove
+</a>
+            </div>
+
+            <div>
+                <strong>
+                    ₹{{ item.product.price|floatformat:0 }}
+                </strong>
+            </div>
+
+        </div>
+        {% empty %}
+        <p>Your cart is empty</p>
+        {% endfor %}
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="cart-summary">
+        <h3>Order Summary</h3>
+        <hr>
+        <p><strong>Total: ₹{{ total }}</strong></p>
+
+        <a href="/orders/">
+            <button style="width:100%; padding:10px; background:orange; border:none;">
+                Proceed to Buy
+            </button>
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>🧾 Your Orders</h2>
+
+{% if orders %}
+    {% for order in orders %}
+        <div style="background:white; padding:20px; margin-bottom:15px; border-radius:10px;">
+
+            <h3>Order ID: {{ order.id }}</h3>
+            <p>Date: {{ order.created_at }}</p>
+            <p>Total: ₹{{ order.total_amount }}</p>
+
+            <h4>Products:</h4>
+
+            {% for item in order.orderitem_set.all %}
+                <div style="margin-left:20px;">
+                    <p>{{ item.product.name }} (x{{ item.quantity }})</p>
+                </div>
+            {% endfor %}
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No orders yet.</p>
+{% endif %}
+
+{% endblock %}

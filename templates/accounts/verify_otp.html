@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify OTP</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+        }
+
+        .auth-wrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            width: 360px;
+            padding: 40px 30px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .auth-container:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .left-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 40px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            text-align: center;
+            letter-spacing: 3px; /* 🔥 OTP style */
+            font-size: 16px;
+        }
+
+        input:focus {
+            box-shadow: 0 0 5px #ffd814;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ffd814;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .auth-btn:hover {
+            background: #f7ca00;
+        }
+
+        .error {
+            color: #ff4d4d;
+            margin-top: 15px;
+        }
+
+        .extra {
+            margin-top: 20px;
+            color: white;
+        }
+
+        .extra a {
+            color: #ffd814;
+            text-decoration: none;
+        }
+
+        .extra a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-container">
+
+        <h2>Verify OTP 🔐</h2>
+        <p class="subtitle">Enter the OTP sent to your email</p>
+
+        <form method="POST">
+    {% csrf_token %}
+
+    <div class="input-group">
+        <i class="fa fa-key left-icon"></i>
+        <input type="text" name="otp" placeholder="Enter OTP" maxlength="6" required>
+    </div>
+
+    <button type="submit" class="auth-btn">Verify OTP</button>
+</form>
+
+{% if error %}
+    <p class="error">{{ error }}</p>
+{% endif %}
+
+<div class="extra">
+    <span id="timer">Resend OTP in 30s</span><br>
+    <a href="{% url 'resend_otp' %}" id="resendBtn" style="pointer-events:none; opacity:0.5;">
+        Resend OTP
+    </a>
+</div>
+
+</body>
+</html>
+
+<script>
+let timeLeft = 30;
+
+let timer = document.getElementById("timer");
+let resendBtn = document.getElementById("resendBtn");
+
+let countdown = setInterval(function() {
+    timeLeft--;
+
+    timer.innerText = "Resend OTP in " + timeLeft + "s";
+
+    if (timeLeft <= 0) {
+        clearInterval(countdown);
+        timer.innerText = "OTP expired ⚠️";
+
+        resendBtn.style.pointerEvents = "auto";
+        resendBtn.style.opacity = "1";
+    }
+
+}, 1000);
+
+
+</script>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}

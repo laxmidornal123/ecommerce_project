@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 style="margin-bottom:20px;">📦 Your Orders</h2>
+
+{% for order in orders %}
+
+<div class="order-card">
+
+    <!-- HEADER -->
+    <div class="order-header">
+        <div><strong>Order ID:</strong> #{{ order.id }}</div>
+        <div><strong>Date:</strong> {{ order.created_at|date:"d M Y, h:i A" }}</div>
+        <div><strong>Total:</strong> ₹{{ order.total_amount }}</div>
+
+        <!-- STATUS -->
+        <div class="status 
+            {% if order.status == 'Pending' %}pending
+            {% elif order.status == 'Delivered' %}delivered
+            {% endif %}">
+            {{ order.status }}
+        </div>
+    </div>
+
+    <!-- ITEMS -->
+    <div class="order-items">
+        {% for item in order.orderitem_set.all %}
+        <div class="item">
+            <img src="{{ item.product.image.url }}" alt="">
+
+            <div>
+                <h4>{{ item.product.name }}</h4>
+                <p>₹{{ item.product.price }}</p>
+                <p>Qty: {{ item.quantity }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% empty %}
+<p>No orders yet 😢</p>
+{% endfor %}
+
+<style>
+
+.order-card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+/* STATUS COLORS */
+.status {
+    font-weight: bold;
+}
+
+.pending {
+    color: orange;
+}
+
+.delivered {
+    color: green;
+}
+
+.order-items .item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.order-items img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+</style>
+
+{% endblock %}

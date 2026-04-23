@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Samsung Galaxy A22",
+    "price": 18999,
+    "description": "Samsung smartphone with AMOLED display and 48MP camera.",
+    "slug": "samsung-galaxy-a22",
+    "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97"
+  },
+  {
+    "name": "Vivo Y100",
+    "price": 22999,
+    "description": "Stylish Vivo phone with great camera and performance.",
+    "slug": "vivo-y100",
+    "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
+  },
+  {
+    "name": "OnePlus 11",
+    "price": 56999,
+    "description": "Flagship OnePlus phone with fast processor and smooth UI.",
+    "slug": "oneplus-11",
+    "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf"
+  }
+]

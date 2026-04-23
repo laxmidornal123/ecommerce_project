@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset Password</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+        }
+
+        .auth-wrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            width: 360px;
+            padding: 40px 30px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .auth-container:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .left-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #555;
+        }
+
+        .right-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 45px 12px 40px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        input:focus {
+            box-shadow: 0 0 5px #ffd814;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ffd814;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            background: #f7ca00;
+        }
+
+        .extra {
+            margin-top: 20px;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="auth-wrapper">
+
+    <div class="auth-container">
+
+        <h2>Reset Password 🔐</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- PASSWORD -->
+            <div class="input-group">
+                <i class="fa fa-lock left-icon"></i>
+                <input type="password" id="password" name="password" placeholder="New Password" required>
+                <span class="right-icon" onclick="togglePassword()">👁️</span>
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="input-group">
+                <i class="fa fa-lock left-icon"></i>
+                <input type="password" id="confirm" name="confirm_password" placeholder="Confirm Password" required>
+                <span class="right-icon" onclick="toggleConfirm()">👁️</span>
+            </div>
+
+            <button type="submit" class="auth-btn">Update Password</button>
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+function togglePassword() {
+    let p = document.getElementById("password");
+    p.type = p.type === "password" ? "text" : "password";
+}
+
+function toggleConfirm() {
+    let c = document.getElementById("confirm");
+    c.type = c.type === "password" ? "text" : "password";
+}
+</script>
+
+</body>
+</html>
