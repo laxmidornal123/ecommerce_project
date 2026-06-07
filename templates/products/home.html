@@ -86,7 +86,7 @@
 <div class="product-grid">
 {% for product in products %}
 <div class="product-card">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- ❤️ Wishlist -->
     <span class="heart" onclick="toggleWishlist({{ product.id }}, this)">
         {% if wishlist_items and product.id in wishlist_items %}
