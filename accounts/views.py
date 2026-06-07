@@ -7,7 +7,7 @@ from datetime import timedelta
 from django.contrib.auth.hashers import make_password
 from .models import OTP
 import random
-
+from django.conf import settings
 
 # ================= REGISTER =================
 def register_view(request):
@@ -66,19 +66,27 @@ def forgot_password(request):
 
         if not user:
             return render(request, 'accounts/forgot.html', {
-               'error': 'Email not found'
+                'error': 'Email not found'
             })
-        otp_code = "123456"
 
-        # DELETE OLD OTP
+        # Generate OTP
+        otp_code = str(random.randint(100000, 999999))
+
+        # Delete old OTP
         OTP.objects.filter(user=user).delete()
 
-        # CREATE NEW OTP
+        # Save new OTP
         OTP.objects.create(user=user, code=otp_code)
 
-        print("OTP:", otp_code)
+        # Send OTP Email
+        send_mail(
+            'Your OTP Code',
+            f'Your OTP is {otp_code}',
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False,
+        )
 
-        # STORE USER IN SESSION
         request.session['reset_user'] = user.id
 
         return redirect('verify_otp')
