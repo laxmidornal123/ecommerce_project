@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Commerce</title>
 
     <style>
@@ -12,14 +13,14 @@
 
         /* NAVBAR */
         .navbar {
-            background: #131921;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            /* justify-content: space-between; 🔥 FIX */
-        }
-
+    background: #131921;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
         /* LEFT SECTION */
         .nav-left {
             display: flex;
@@ -145,6 +146,65 @@
     position: absolute;
     top: -8px;
     right: -10px;
+}
+/* ===== MOBILE RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px;
+    }
+
+    .nav-left {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .search-container {
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .auth-btn {
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .dropbtn {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .search-input {
+        font-size: 12px;
+    }
+
+    .search-btn {
+        padding: 8px;
+    }
+
+    .nav-links {
+        font-size: 13px;
+    }
+
+    .wishlist-count {
+        right: -5px;
+    }
 }
     </style>
 </head>

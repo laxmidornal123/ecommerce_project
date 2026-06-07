@@ -57,9 +57,11 @@ class Review(models.Model):
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('product', 'user')
+
     def __str__(self):
         return f"{self.product.name} - {self.rating}"
-
 
 # ✅ WISHLIST MODEL
 class Wishlist(models.Model):

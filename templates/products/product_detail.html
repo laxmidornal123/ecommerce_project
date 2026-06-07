@@ -1,24 +1,98 @@
-<style>
-</style?
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+.cart-btn{
+    display:inline-block;
+    background:#FFD814;
+    color:black;
+    padding:12px 25px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+    margin-top:15px;
+    transition:0.3s;
+}
 
-<div style="background:white; padding:20px; border-radius:10px;">
+.cart-btn:hover{
+    background:#F7CA00;
+    transform:scale(1.05);
+}
+.product-container{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:30px;
+    align-items:flex-start;
+    margin-bottom:30px;
+}
 
-    <h2>{{ product.name }}</h2>
+.product-image{
+    width:300px;
+    max-width:100%;
+    border-radius:10px;
+}
 
-    <img src="{{ product.image.url }}" width="300" style="border-radius:10px;">
+.product-info{
+    flex:1;
+    min-width:250px;
+}
 
-    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+.product-info h2{
+    margin-top:0;
+}
 
-    <a href="/cart/add/{{ product.id }}/" 
-       style="background:#ffd814; padding:10px; text-decoration:none; border-radius:5px;">
-       Add to Cart
-    </a>
+.review-section{
+    margin-top:30px;
+}
 
-</div>
+.product-image{
+    max-width:300px;
+    width:100%;
+    border-radius:10px;
+}
+
+.product-info{
+    flex:1;
+}
+
+.review-box{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+
+@media (max-width:768px){
+
+    .product-container{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .product-image{
+        max-width:250px;
+    }
+
+    textarea{
+        width:100% !important;
+    }
+    .product-info{
+    text-align:center;
+}
+
+.cart-btn{
+    width:100%;
+    max-width:250px;
+}
+}
+
+</style>
+
 
 <hr>
 
@@ -29,13 +103,13 @@ Average Rating:
 </h3>
 
 <hr>
+<div class="review-section">
 
 <h3>⭐ Customer Reviews</h3>
 
 {% if reviews %}
     {% for review in reviews %}
-        <div style="background:white; padding:15px; margin:10px 0; border-radius:10px; box-shadow:0 0 5px rgba(0,0,0,0.1);">
-            
+<div class="review-box">            
             <strong>{{ review.user.username }}</strong>
 
             <!-- ⭐ Star Display -->
@@ -56,12 +130,28 @@ Average Rating:
 {% else %}
     <p>No reviews yet.</p>
 {% endif %}
+    </div>
+<div class="product-container">
 
+    <img src="{{ product.image.url }}" class="product-image">
+
+    <div class="product-info">
+
+        <h2>{{ product.name }}</h2>
+
+        <p><strong>Price:</strong> ₹{{ product.price }}</p>
+
+        <a href="/cart/add/{{ product.id }}/" class="cart-btn">
+            🛒 Add to Cart
+        </a>
+
+    </div>
+
+</div>
 <hr>
 
 <!-- ✅ Only purchased users can review -->
-{% if has_purchased %}
-
+{% if has_purchased and not already_reviewed %}
 <h3>Add Your Review</h3>
 
 <form method="post">
@@ -92,38 +182,45 @@ Average Rating:
     </button>
 </form>
 {% endif %}
+{% if already_reviewed %}
+<p style="
+    color:green;
+    font-weight:bold;
+    margin-top:15px;
+    background:#e8f5e9;
+    padding:10px;
+    border-radius:5px;">
+    ✅ You have already submitted a review for this product.
+</p>
 
-{% endblock %}
-
+{% endif %}
 <script>
-const stars = document.querySelectorAll('#star-rating span');
-const ratingInput = document.getElementById('rating-value');
+document.addEventListener("DOMContentLoaded", function(){
 
-stars.forEach(star => {
+    const stars = document.querySelectorAll('#star-rating span');
+    const ratingInput = document.getElementById('rating-value');
 
-    // Hover effect
-    star.addEventListener('mouseover', function() {
-        let value = this.getAttribute('data-value');
+    stars.forEach(star => {
 
-        stars.forEach(s => {
-            if (s.getAttribute('data-value') <= value) {
-                s.innerHTML = "⭐";
-            } else {
-                s.innerHTML = "☆";
-            }
+        star.addEventListener('click', function(){
+
+            let value = this.getAttribute('data-value');
+            ratingInput.value = value;
+
+            stars.forEach(s => {
+
+                if(s.getAttribute('data-value') <= value){
+                    s.innerHTML = "⭐";
+                }else{
+                    s.innerHTML = "☆";
+                }
+
+            });
+
         });
+
     });
 
-    // Click event
-    star.addEventListener('click', function() {
-        let value = this.getAttribute('data-value');
-        ratingInput.value = value;
-    });
-
-});
-
-// Reset on mouse leave
-document.getElementById('star-rating').addEventListener('mouseleave', function() {
-    stars.forEach(s => s.innerHTML = "☆");
 });
 </script>
+{% endblock %}

@@ -10,7 +10,7 @@ urlpatterns = [
     # Optional features
     path('verify/', verify_payment, name='verify_payment'),
     path('track/', track_order, name='track_order'),
-    path('invoice/', generate_invoice, name='invoice'),
+    path('invoice/<int:order_id>/', generate_invoice, name='generate_invoice'),
 
     #  Order history
     path('history/', order_history, name='order_history'),

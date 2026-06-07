@@ -5,8 +5,47 @@
 <style>
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .product-card {
+        height: auto;
+        padding: 10px;
+    }
+
+    .product-img {
+        height: 120px;
+    }
+
+    .product-name {
+        font-size: 14px;
+    }
+
+    .product-price {
+        font-size: 16px;
+    }
+
+    .add-btn,
+    .view-btn {
+        width: 100%;
+        font-size: 12px;
+    }
 }
 
 .product-card {
@@ -86,7 +125,6 @@
 <div class="product-grid">
 {% for product in products %}
 <div class="product-card">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- ❤️ Wishlist -->
     <span class="heart" onclick="toggleWishlist({{ product.id }}, this)">
         {% if wishlist_items and product.id in wishlist_items %}

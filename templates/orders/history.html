@@ -25,15 +25,55 @@
 
     <!-- ITEMS -->
     <div class="order-items">
-        {% for item in order.orderitem_set.all %}
+        {% for item in order.items.all %}
         <div class="item">
             <img src="{{ item.product.image.url }}" alt="">
 
             <div>
-                <h4>{{ item.product.name }}</h4>
-                <p>₹{{ item.product.price }}</p>
-                <p>Qty: {{ item.quantity }}</p>
-            </div>
+    <h4>{{ item.product.name }}</h4>
+
+    <p><strong>Price:</strong> ₹{{ item.product.price }}</p>
+
+    <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+
+    {% if item.product.id in reviewed_products %}
+
+        <span style="
+            background:#28a745;
+            color:white;
+            padding:6px 12px;
+            border-radius:20px;
+            font-size:13px;">
+            ✅ Review Submitted
+        </span>
+
+    {% else %}
+
+        <a href="{% url 'product_detail' item.product.slug %}"
+           style="
+           background:#ffd814;
+           color:black;
+           text-decoration:none;
+           padding:8px 12px;
+           border-radius:5px;
+           display:inline-block;">
+           ⭐ Give Review
+        </a>
+
+    {% endif %}
+    <br><br>
+
+<a href="{% url 'generate_invoice' order.id %}"
+   style="
+   background:#007bff;
+   color:white;
+   padding:8px 12px;
+   text-decoration:none;
+   border-radius:5px;
+   display:inline-block;">
+   📄 Download Invoice
+</a>
+</div>
         </div>
         {% endfor %}
     </div>

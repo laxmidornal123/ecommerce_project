@@ -2,28 +2,194 @@
 
 {% block content %}
 
-<h2>🧾 Your Orders</h2>
+<style>
+
+.orders-container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.order-card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    border-bottom:1px solid #ddd;
+    padding-bottom:10px;
+    margin-bottom:15px;
+}
+
+.order-id{
+    font-weight:bold;
+    color:#131921;
+}
+
+.order-date{
+    color:#555;
+}
+
+.order-total{
+    color:#B12704;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.product-list{
+    margin-top:15px;
+}
+
+.product-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+.product-item:last-child{
+    border-bottom:none;
+}
+
+.product-name{
+    font-weight:500;
+}
+
+.product-qty{
+    color:#555;
+}
+
+.status{
+    display:inline-block;
+    background:#d4edda;
+    color:#155724;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.empty-orders{
+    text-align:center;
+    background:white;
+    padding:40px;
+    border-radius:12px;
+}
+
+.shop-btn{
+    background:#ffd814;
+    color:black;
+    padding:10px 20px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.shop-btn:hover{
+    background:#f7ca00;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .order-header{
+        flex-direction:column;
+        gap:8px;
+    }
+
+    .product-item{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:5px;
+    }
+
+    .order-total{
+        font-size:16px;
+    }
+}
+
+</style>
+
+<div class="orders-container">
+
+<h2>📦 My Orders</h2>
 
 {% if orders %}
+
     {% for order in orders %}
-        <div style="background:white; padding:20px; margin-bottom:15px; border-radius:10px;">
 
-            <h3>Order ID: {{ order.id }}</h3>
-            <p>Date: {{ order.created_at }}</p>
-            <p>Total: ₹{{ order.total_amount }}</p>
+    <div class="order-card">
 
-            <h4>Products:</h4>
+        <div class="order-header">
+
+            <div>
+                <div class="order-id">
+                    Order #{{ order.id }}
+                </div>
+
+                <div class="order-date">
+                    {{ order.created_at }}
+                </div>
+            </div>
+
+            <div class="order-total">
+                ₹{{ order.total_amount }}
+            </div>
+
+        </div>
+
+        <div class="product-list">
 
             {% for item in order.orderitem_set.all %}
-                <div style="margin-left:20px;">
-                    <p>{{ item.product.name }} (x{{ item.quantity }})</p>
+
+            <div class="product-item">
+
+                <div class="product-name">
+                    {{ item.product.name }}
                 </div>
+
+                <div class="product-qty">
+                    Quantity: {{ item.quantity }}
+                </div>
+
+            </div>
+
             {% endfor %}
 
         </div>
+
+        <span class="status">
+            ✅ Order Placed
+        </span>
+
+    </div>
+
     {% endfor %}
+
 {% else %}
-    <p>No orders yet.</p>
+
+<div class="empty-orders">
+
+    <h3>No Orders Yet 📭</h3>
+
+    <p>You haven't placed any orders yet.</p>
+
+    <a href="/" class="shop-btn">
+        Continue Shopping
+    </a>
+
+</div>
+
 {% endif %}
+
+</div>
 
 {% endblock %}

@@ -54,20 +54,30 @@ def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     reviews = Review.objects.filter(product=product)
 
-    #  Average rating
+    # Average rating
     avg_rating = reviews.aggregate(Avg('rating'))['rating__avg']
 
-    #  Check purchase
+    # Check purchase
     if request.user.is_authenticated:
         has_purchased = OrderItem.objects.filter(
             order__user=request.user,
             product=product
         ).exists()
+
+        already_reviewed = Review.objects.filter(
+            user=request.user,
+            product=product
+        ).exists()
     else:
         has_purchased = False
+        already_reviewed = False
 
-    #  Add review
+    # Add review
     if request.method == "POST" and has_purchased:
+
+        if already_reviewed:
+            return redirect('product_detail', slug=product.slug)
+
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
 
@@ -84,9 +94,9 @@ def product_detail(request, slug):
         'product': product,
         'reviews': reviews,
         'avg_rating': avg_rating,
-        'has_purchased': has_purchased
+        'has_purchased': has_purchased,
+        'already_reviewed': already_reviewed
     })
-
 
 #  ADD TO WISHLIST
 def add_to_wishlist(request, product_id):
