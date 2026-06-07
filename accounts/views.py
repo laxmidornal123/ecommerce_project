@@ -15,6 +15,10 @@ def register_view(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        if User.objects.filter(email=email).exists():
+           return render(request, 'accounts/register.html', {
+             'error': 'Email already registered'
+           })
 
         if User.objects.filter(username=username).exists():
             return render(request, 'accounts/register.html', {
@@ -58,13 +62,13 @@ def forgot_password(request):
     if request.method == "POST":
         email = request.POST.get('email')
 
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            return render(request, 'accounts/forgot.html', {
-                'error': 'Email not found '
-            })
+        user = User.objects.filter(email=email).first()
 
+        if not user:
+            return render(request, 'accounts/forgot.html', {
+               'error': 'Email not found'
+            })
+            
         otp_code = str(random.randint(100000, 999999))
 
         # DELETE OLD OTP
