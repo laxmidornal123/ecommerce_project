@@ -79,13 +79,14 @@ def forgot_password(request):
         OTP.objects.create(user=user, code=otp_code)
 
         # Send OTP Email
-        send_mail(
-            'Your OTP Code',
-            f'Your OTP is {otp_code}',
-            settings.EMAIL_HOST_USER,
-            [email],
-            fail_silently=False,
-        )
+        #send_mail(
+         #   'Your OTP Code',
+          #  f'Your OTP is {otp_code}',
+           # settings.EMAIL_HOST_USER,
+            #[email],
+            #fail_silently=False,
+        #)
+        print("OTP:", otp_code)
 
         request.session['reset_user'] = user.id
 
