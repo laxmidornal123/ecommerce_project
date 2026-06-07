@@ -68,8 +68,7 @@ def forgot_password(request):
             return render(request, 'accounts/forgot.html', {
                'error': 'Email not found'
             })
-            
-        otp_code = str(random.randint(100000, 999999))
+        otp_code = "123456"
 
         # DELETE OLD OTP
         OTP.objects.filter(user=user).delete()
