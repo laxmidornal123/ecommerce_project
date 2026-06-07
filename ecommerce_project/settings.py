@@ -48,6 +48,7 @@ TEMPLATES = [
             'django.template.context_processors.request',
             'django.contrib.auth.context_processors.auth',
             'django.contrib.messages.context_processors.messages',
+            'products.context_processors.wishlist_count',
         ]},
     },
 ]
@@ -62,6 +63,7 @@ DATABASES = {
 }
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')   
 
@@ -78,5 +80,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'laxmidornal12@gmail.com'
+EMAIL_HOST_PASSWORD = 'otirldjitjluasqy'

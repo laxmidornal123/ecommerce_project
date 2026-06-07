@@ -20,13 +20,6 @@ nav a {
 }
 
 /* Login box */
-.login-box {
-    width: 300px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-}
 
 button {
     background: black;
